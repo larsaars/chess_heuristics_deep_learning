@@ -4,7 +4,9 @@ import numpy as np
 import chess
 import matplotlib.pyplot as plt
 from tensorflow import keras
+import tensorflow as tf
 from utils.chess_utils import *
+
 
 df = pd.read_csv('data/games.csv', sep=';')
 df = df[df['winner'] != 'draw']
