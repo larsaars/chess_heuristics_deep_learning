@@ -1,0 +1,6 @@
+pandas
+tensorflow
+numpy
+chess
+matplotlib
+seaborn
