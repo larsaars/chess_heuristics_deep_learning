@@ -1,10 +1,10 @@
-from model import model
+from utils.model import model
 import pandas as pd
 import numpy as np
 import chess
-import os
 import matplotlib.pyplot as plt
 from tensorflow import keras
+from utils.chess_utils import *
 
 df = pd.read_csv('data/games.csv', sep=';')
 df = df[df['winner'] != 'draw']
@@ -13,52 +13,8 @@ winner = df['winner'].values
 X = []
 y = []
 
-chess_dict = {
-    'p': [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    'P': [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    'n': [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    'N': [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-    'b': [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    'B': [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-    'r': [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-    'R': [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-    'q': [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-    'Q': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-    'k': [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-    'K': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    '.': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-}
-
-
-def make_matrix(board):
-    pgn = board.epd()
-    foo = []
-    pieces = pgn.split(" ", 1)[0]
-    rows = pieces.split("/")
-    for row in rows:
-        foo2 = []
-        for thing in row:
-            if thing.isdigit():
-                for i in range(0, int(thing)):
-                    foo2.append('.')
-            else:
-                foo2.append(thing)
-        foo.append(foo2)
-    return foo
-
-
-def translate(matrix0, chess_dict0):
-    rows0 = []
-    for row in matrix0:
-        terms = []
-        for term in row:
-            terms.append(chess_dict0[term])
-        rows0.append(terms)
-    return rows0
-
-
+index = 0
 for game in moves:
-    index = list(moves).index(game)
     all_moves = game.split()
     total_moves = len(all_moves)
     if winner[index] == 'black':
@@ -70,16 +26,22 @@ for game in moves:
         board.push_san(all_moves[i])
         value = game_winner * (i / total_moves)
         matrix = make_matrix(board.copy())
-        rows = translate(matrix, chess_dict)
+        rows = translate(matrix)
         X.append([rows])
         y.append(value)
+
+    index += 1
+
+# define X and y
 X = np.array(X).reshape((len(X), 8, 8, 12))
 y = np.array(y)
 
 # start training
+# set name of files
 h5 = 'model.h5'
 json = 'model.json'
 
+# create callbacks
 checkpoint = keras.callbacks.ModelCheckpoint(h5,
                                              monitor='loss',
                                              verbose=0,
@@ -95,8 +57,8 @@ with open(json, "w") as json_file:
     json_file.write(model_json)
 
 print('Training Network...')
-
 history = model.fit(X, y, epochs=1000, verbose=2, callbacks=callback)
 
+# plot and save
 plt.plot(history.history['loss'])
 plt.savefig('history.png')

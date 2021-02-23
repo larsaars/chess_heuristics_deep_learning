@@ -1,8 +1,6 @@
-from tensorflow.keras import callbacks, optimizers
-from tensorflow.keras.layers import (LSTM, BatchNormalization, Dense, Dropout, Flatten,
-                                     TimeDistributed)
+from tensorflow.keras.layers import BatchNormalization, Dense, Flatten
 from tensorflow.keras.layers import Conv2D, MaxPooling2D
-from tensorflow.keras.models import Sequential, load_model, model_from_json
+from tensorflow.keras.models import Sequential
 
 model = Sequential()
 model.add(Conv2D(filters=64, kernel_size=1, activation='relu', input_shape=(8, 8, 12)))
