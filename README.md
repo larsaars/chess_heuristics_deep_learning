@@ -1,4 +1,5 @@
 # Support Chess Bot with Deep Learning
+- creates a heuristic function for chess game, can be implemented with the [minimax algorithm](https://en.wikipedia.org/wiki/Minimax) (and alpha beta pruning)
 - using [Chess Game Dataset (Lichess)](https://www.kaggle.com/datasnaek/chess) [20000 games]
 - install requirements.txt or for gpu usage install `tensorflow-gpu` ([how to use](https://stackoverflow.com/questions/51306862/how-do-i-use-tensorflow-gpu))
-- I found [this](https://towardsdatascience.com/creating-a-chess-engine-with-deep-learning-b9477ff3ee3d) post pretty helpful.
+- I found [this](https://towardsdatascience.com/creating-a-chess-engine-with-deep-learning-b9477ff3ee3d) post to be pretty helpful.
