@@ -1,12 +1,14 @@
+"""
+trains heuristic chess function on all games that were won by resign or mate
+"""
+
 from utils.model import model
 import pandas as pd
 import numpy as np
 import chess
 import matplotlib.pyplot as plt
 from tensorflow import keras
-import tensorflow as tf
 from utils.chess_utils import *
-
 
 df = pd.read_csv('data/games.csv', sep=';')
 df = df[df['winner'] != 'draw']
@@ -36,8 +38,6 @@ for game in moves:
 
     index += 1
 
-print(index)
-
 # define X and y
 X = np.array(X).reshape((len(X), 8, 8, 12))
 y = np.array(y)
@@ -62,7 +62,6 @@ model_json = model.to_json()
 with open(json, "w") as json_file:
     json_file.write(model_json)
 
-print('Training Network...')
 history = model.fit(X, y, epochs=1000, verbose=2, callbacks=callback)
 
 # plot and save

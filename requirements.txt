@@ -4,3 +4,4 @@ numpy
 chess
 matplotlib
 seaborn
+jupyter
