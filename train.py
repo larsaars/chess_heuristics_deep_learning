@@ -6,8 +6,8 @@ from utils.model import model
 import pandas as pd
 import numpy as np
 import chess
-import matplotlib.pyplot as plt
 from tensorflow import keras
+import matplotlib.pyplot as plt
 from utils.chess_utils import *
 
 df = pd.read_csv('data/games.csv', sep=';')
