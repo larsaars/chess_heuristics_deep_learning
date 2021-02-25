@@ -30,5 +30,5 @@ while True:
     matrix = make_matrix(board)
     rows = translate(matrix)
 
-    print('<<', rows)
-    print('<<',  model.predict([rows]))
+    print('<<', matrix)
+    print('<<',  model.predict([rows])[0][0])
