@@ -7,5 +7,5 @@
 - "Keep in mind that the scale goes between -1 and 1, -1 being a checkmate for black and 1 being a checkmate for white."
 - you can use the notebook to train the model with [Google Colab](https://colab.research.google.com/)
 ## second try
-- using [this](https://www.kaggle.com/ronakbadhe/chess-evaluations) dataset
+- using [this](https://www.kaggle.com/ronakbadhe/chess-evaluations) dataset (not the whole since else much too big)
 - using Colab again (notebook `train_stockfish`)

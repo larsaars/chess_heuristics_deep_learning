@@ -1,3 +1,11 @@
+"""
+test the heuristics the model predicts from board inputted as fen string
+"""
+
+import chess
+from tensorflow import keras
+
+# utility functions
 chess_dict = {
     'p': [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     'P': [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
@@ -40,3 +48,31 @@ def translate(matrix):
             terms.append(chess_dict[term])
         rows.append(terms)
     return rows
+
+
+# load the model
+# first the json structure then the binary
+model: keras.Sequential
+with open('model_lichess.json', 'r') as json:
+    model = keras.models.model_from_json(json.read())
+model.load_weights('model_lichess.h5')
+
+print('<< Enter a fen string, the network will evaluate the position. Press \'q\' to exit.')
+
+while True:
+    fen = input('>> ')
+
+    if fen == 'q':
+        break
+
+    try:
+        board = chess.Board(fen=fen)
+    except ValueError:
+        print('<< invalid fen string')
+        continue
+
+    matrix = make_matrix(board)
+    rows = translate(matrix)
+
+    print('<<', matrix)
+    print('<<', model.predict([rows])[0][0])
