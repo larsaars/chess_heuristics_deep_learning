@@ -50,12 +50,14 @@ def translate(matrix):
     return rows
 
 
+model_name = input('enter model name:')
+
 # load the model
 # first the json structure then the binary
 model: keras.Sequential
-with open('model_lichess.json', 'r') as json:
+with open('models/' + model_name + '.json', 'r') as json:
     model = keras.models.model_from_json(json.read())
-model.load_weights('model_lichess.h5')
+model.load_weights('models/' + model_name + '.h5')
 
 print('<< Enter a fen string, the network will evaluate the position. Press \'q\' to exit.')
 
